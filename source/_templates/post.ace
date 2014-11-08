@@ -1,0 +1,4 @@
+= content main
+  h1 {{.Post.Title}}
+  p.
+    {{.Post.Content}}

@@ -1,0 +1,26 @@
+Title
+  {{if .Post}}
+    {{.Post.Title}}
+  {{else}}
+    {{.Site.Title}}
+  {{end}}
+link href=/favicon.ico rel=icon
+link href=/css/main.css rel="stylesheet" type="text/css" media="all"
+
+// metadata
+meta charset=utf-8
+{{if .Post | and .Post.Author}}
+  meta name=author content={{.Post.Author}}
+{{else}}
+  meta name=author content={{.Site.Author}}
+{{end}}
+{{if .Post | and .Post.Description}}
+  meta name=description content={{.Post.Description}}
+{{else}}
+  meta name=description content={{.Site.Description}}
+{{end}}
+
+// http://t.co/dKP3o1e
+meta name=HandheldFriendly content=True
+meta name=MobileOptimized content=320
+meta name=viewport content="width=device-width, initial-scale=1"
