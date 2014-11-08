@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/albrow/ace"
 	"github.com/howeyc/fsnotify"
 	"github.com/russross/blackfriday"
-	"github.com/yosssi/ace"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -18,12 +18,8 @@ import (
 
 const frontMatterDelim = "+++\n"
 
-const (
-	sourceDir     = "source"
-	destDir       = "public"
-	postsDir      = "source/_posts"
-	sassSourceDir = "source/_sass"
-	sassDestDir   = "public/css"
+var (
+	sourceDir, destDir, postsDir, sassSourceDir, sassDestDir string
 )
 
 type Post struct {
@@ -35,33 +31,81 @@ type Post struct {
 	Dir         string        `toml:"-"`
 }
 
-type Site struct {
-	Title       string
-	Author      string
-	Description string
-}
+type Context map[string]interface{}
 
-type Context struct {
-	Site  Site
-	Posts []Post
-	Post  Post
-}
-
-var context = Context{
-	Site: Site{
-		Title:       "Alex Browne's Blog",
-		Author:      "Alex Browne",
-		Description: "A blog written by Alex Browne about coding and shit.",
-	},
-	Posts: []Post{},
-}
+var (
+	context = Context{}
+	posts   = []Post{}
+)
 
 func main() {
+	parseConfig()
 	generate()
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer watcher.Close()
+	watch(watcher)
+}
+
+func parseConfig() {
+	if _, err := toml.DecodeFile("config.toml", context); err != nil {
+		panic(err)
+	}
+	vars := map[string]*string{
+		"sourceDir":     &sourceDir,
+		"destDir":       &destDir,
+		"postsDir":      &postsDir,
+		"sassSourceDir": &sassSourceDir,
+		"sassDestDir":   &sassDestDir,
+	}
+	setGlobalConfig(vars, context)
+}
+
+func setGlobalConfig(vars map[string]*string, data map[string]interface{}) {
+	for name, holder := range vars {
+		if value, found := data[name]; found {
+			(*holder) = fmt.Sprint(value)
+		}
+	}
+}
+
+func generate() {
+	removeOld()
+	parsePosts()
+	generatePages()
+	generatePosts()
+}
+
+func removeOld() {
+	// walk through the dest dir
+	if err := filepath.Walk(destDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.Name() == destDir {
+			// ignore the destDir itself
+			return nil
+		} else if info.IsDir() {
+			// remove the dir and everything in it
+			if err := os.RemoveAll(path); err != nil {
+				panic(err)
+			}
+			return filepath.SkipDir
+		} else {
+			// remove the file
+			if err := os.Remove(path); err != nil {
+				panic(err)
+			}
+		}
+		return nil
+	}); err != nil {
+		panic(err)
+	}
+}
+
+func watch(watcher *fsnotify.Watcher) {
 	done := make(chan bool)
 
 	// Process events
@@ -81,21 +125,13 @@ func main() {
 		}
 	}()
 
-	err = watcher.Watch(sourceDir + "/_posts")
+	err := watcher.Watch(postsDir)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	runSass()
 
 	<-done
-	watcher.Close()
-}
-
-func generate() {
-	parsePosts()
-	generateIndex()
-	generatePosts()
 }
 
 func runSass() {
@@ -107,22 +143,27 @@ func runSass() {
 	}
 }
 
-func parsePosts() {
-	// remove any old posts
-	context.Posts = []Post{}
-	// walk through the source/posts dir
-	if err := filepath.Walk(postsDir, func(path string, info os.FileInfo, err error) error {
+func generatePages() {
+	// walk through the source dir
+	if err := filepath.Walk(sourceDir, func(innerPath string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		// check if markdown file (ignore everything else)
-		if filepath.Ext(path) == ".md" {
-			// create a new Post object from the file and append it to context.Posts
-			p, err := createPostFromPath(path, info)
-			if err != nil {
-				return err
+		base := info.Name()
+		if base[0] == '.' || base[0] == '_' {
+			// ignore two kinds of files
+			// 1. those that start with a '.' are hidden system files
+			// 2. those that start with a '_' are specifically ignored by scribble
+			if info.IsDir() {
+				// skip any files in directories that start with '_'
+				return filepath.SkipDir
 			}
-			context.Posts = append(context.Posts, p)
+			return nil
+		}
+		ext := filepath.Ext(base)
+		switch ext {
+		case ".ace":
+			generatePageFromPath(innerPath)
 		}
 		return nil
 	}); err != nil {
@@ -130,30 +171,82 @@ func parsePosts() {
 	}
 }
 
-func generateIndex() {
-	// create the file
-	file, err := os.Create(destDir + "/index.html")
+func generatePageFromPath(path string) {
+	srcFile, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
+	reader := bufio.NewReader(srcFile)
+	frontMatter, content, err := split(reader)
+	pageContext := context
+	if frontMatter != "" {
+		if _, err := toml.Decode(frontMatter, pageContext); err != nil {
+			panic(err)
+		}
+	}
+	layout := "base"
+	if otherLayout, found := pageContext["layout"]; found {
+		layout = otherLayout.(string)
+	}
+	tpl, err := ace.Load("_layouts/"+layout, filepath.Base(path), &ace.Options{
+		BaseDir: sourceDir,
+		Asset: func(name string) ([]byte, error) {
+			return []byte(content), nil
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+	destPath := strings.Replace(path, sourceDir, destDir, 1)
+	destPath = strings.Replace(destPath, ".ace", ".html", 1)
+	if err := os.MkdirAll(filepath.Dir(destPath), os.ModePerm); err != nil {
+		panic(err)
+	}
+	destFile, err := os.Create(destPath)
+	if err != nil {
+		// if the file already exists, that's fine
+		// if there was some other error, panic
+		if !os.IsExist(err) {
+			panic(err)
+		}
+	}
+	if err := tpl.Execute(destFile, pageContext); err != nil {
+		panic(err)
+	}
+}
 
-	// load and execute the template for the index page
-	tpl, err := ace.Load("base", "index", &ace.Options{BaseDir: sourceDir + "/_templates"})
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := tpl.Execute(file, context); err != nil {
-		log.Fatal(err)
+func parsePosts() {
+	// remove any old posts
+	posts = []Post{}
+	context["Posts"] = posts
+	// walk through the source/posts dir
+	if err := filepath.Walk(postsDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		// check if markdown file (ignore everything else)
+		if filepath.Ext(path) == ".md" {
+			// create a new Post object from the file and append it to posts
+			p, err := createPostFromPath(path, info)
+			if err != nil {
+				return err
+			}
+			posts = append(posts, p)
+		}
+		context["Posts"] = posts
+		return nil
+	}); err != nil {
+		panic(err)
 	}
 }
 
 func generatePosts() {
 	// load the template
-	tpl, err := ace.Load("base", "post", &ace.Options{BaseDir: sourceDir + "/_templates"})
+	tpl, err := ace.Load("_layouts/base", "_views/post", &ace.Options{BaseDir: sourceDir})
 	if err != nil {
 		panic(err)
 	}
-	for _, p := range context.Posts {
+	for _, p := range posts {
 		p.generate(tpl)
 	}
 }
@@ -180,7 +273,7 @@ func (p Post) generate(tpl *template.Template) {
 			panic(err)
 		}
 	}
-	context.Post = p
+	context["Post"] = p
 	if err := tpl.Execute(file, context); err != nil {
 		panic(err)
 	}

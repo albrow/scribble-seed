@@ -1,0 +1,10 @@
+sourceDir     = "source"
+destDir       = "public"
+postsDir      = "source/_posts"
+sassSourceDir = "source/_sass"
+sassDestDir   = "public/css"
+
+[Site]
+Title = "Alex Browne's Blog"
+Author = "Alex Browne"
+Description = "A blog written by Alex Browne about coding and shit."

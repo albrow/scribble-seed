@@ -1,6 +1,0 @@
-= content main
-  ul
-  {{range .Posts}}
-    li
-      a href={{.Url}} {{.Title}}
-  {{end}}

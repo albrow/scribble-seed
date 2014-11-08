@@ -1,0 +1,7 @@
+= doctype html
+html lang=en
+  head
+    = include _includes/head .
+  body
+    #container
+      = yield main
