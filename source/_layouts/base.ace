@@ -3,5 +3,5 @@ html lang=en
   head
     = include _includes/head .
   body
-    #container
-      = yield main
+    = yield main
+    = include _includes/foot

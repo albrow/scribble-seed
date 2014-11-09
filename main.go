@@ -8,6 +8,7 @@ import (
 	"github.com/howeyc/fsnotify"
 	"github.com/russross/blackfriday"
 	"html/template"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -88,6 +89,10 @@ func removeOld() {
 			// ignore the destDir itself
 			return nil
 		} else if info.IsDir() {
+			if path == sassDestDir {
+				// let sass handle this one
+				return filepath.SkipDir
+			}
 			// remove the dir and everything in it
 			if err := os.RemoveAll(path); err != nil {
 				panic(err)
@@ -160,10 +165,29 @@ func generatePages() {
 			}
 			return nil
 		}
-		ext := filepath.Ext(base)
-		switch ext {
-		case ".ace":
-			generatePageFromPath(innerPath)
+		if !info.IsDir() {
+			ext := filepath.Ext(base)
+			switch ext {
+			case ".ace":
+				generatePageFromPath(innerPath)
+			default:
+				// copy the file directly to the destDir
+				destPath := strings.Replace(innerPath, sourceDir, destDir, 1)
+				srcFile, err := os.Open(innerPath)
+				if err != nil {
+					panic(err)
+				}
+				if err := os.MkdirAll(filepath.Dir(destPath), os.ModePerm); err != nil {
+					panic(err)
+				}
+				destFile, err := os.Create(destPath)
+				if err != nil {
+					panic(err)
+				}
+				if _, err := io.Copy(destFile, srcFile); err != nil {
+					panic(err)
+				}
+			}
 		}
 		return nil
 	}); err != nil {
