@@ -3,5 +3,10 @@ html lang=en
   head
     = include _includes/head .
   body
-    = yield main
+    #nav-bar
+      #nav-bar-inner
+        = include _includes/brand
+        = include _includes/nav
+    #container
+      = yield main
     = include _includes/foot

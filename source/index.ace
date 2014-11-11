@@ -1,6 +1,7 @@
 = content main
+  h1 Recent Posts
   ul
-    {{range .Posts}}
+    {{range Posts 5}}
       li
         a href={{.Url}} {{.Title}}
     {{end}}

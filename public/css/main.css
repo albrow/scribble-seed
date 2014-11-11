@@ -1,4 +1,184 @@
-h1 {
-  color: orange; }
+body, p {
+  font-size: 20px;
+  line-height: 135%;
+  font-family: Palatino, Times New Roman, times, serif;
+  color: #333; }
 
-/*# sourceMappingURL=main.css.map */
+h1 {
+  font-size: 48px; }
+
+h2 {
+  font-size: 36px; }
+
+h3 {
+  font-size: 28px;
+  line-height: 105%; }
+
+h4 {
+  font-size: 24px;
+  line-height: 90%; }
+
+h5 {
+  font-size: 22px;
+  line-height: 80%; }
+
+h1, h2 {
+  font-family: Helvetica Neue, Helvetica, helvetica, arial, sans-serif;
+  font-weight: 900;
+  line-height: 105%; }
+
+h1, h2, h3, h4, h5 {
+  font-weight: 900; }
+
+code, .code, pre {
+  font-family: Consolas, Monaco, monaco, monospace;
+  font-size: 16px;
+  overflow: scroll; }
+
+@media screen and (max-width: 529px) {
+  body, p {
+    font-size: 18px; }
+  code, .code, pre {
+    font-size: 14.4px; }
+  h1 {
+    font-size: 48px; }
+  h2 {
+    font-size: 32.4px; }
+  h3 {
+    font-size: 25.2px; }
+  h4 {
+    font-size: 21.6px; }
+  h5 {
+    font-size: 19.8px; } }
+
+#container {
+  max-width: 700px;
+  padding: 0 120px;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px; }
+
+@media screen and (max-width: 719px) {
+  #container {
+    margin-top: 140px;
+    width: 100%;
+    padding: 0 40px;
+    box-sizing: border-box; } }
+
+a {
+  color: #22b8cc;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s; }
+  a:hover, a:active {
+    color: #1b91a0; }
+
+#brand {
+  margin-top: 20px;
+  margin-left: 20px;
+  border: solid 2px;
+  padding: 2px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  float: left; }
+  #brand #brand-inner {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    line-height: 60px;
+    box-sizing: border-box;
+    border-radius: 50%; }
+
+@media screen and (max-width: 719px) {
+  #brand {
+    border-color: #fff;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    width: 45px;
+    height: 45px; }
+    #brand #brand-inner {
+      background-color: #fff;
+      color: #333;
+      font-size: 22.5px;
+      line-height: 45px; } }
+
+#nav-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%; }
+  #nav-bar #nav-bar-inner {
+    max-width: 1000px;
+    margin: 0 auto; }
+
+#nav {
+  margin-top: 31.66667px;
+  margin-right: 37.5px;
+  float: right;
+  line-height: 35px; }
+
+.lines-button {
+  display: inline-block;
+  transition: 0.15s;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 5px; }
+  .lines-button:hover {
+    opacity: 1; }
+  .lines-button:active {
+    transition: 0; }
+
+.lines {
+  display: inline-block;
+  width: 35px;
+  height: 5px;
+  background: #333;
+  border-radius: 2.5px;
+  position: relative;
+  /*create the upper and lower lines as pseudo-elements of the middle line*/ }
+  .lines:before, .lines:after {
+    display: inline-block;
+    width: 35px;
+    height: 5px;
+    background: #333;
+    border-radius: 2.5px;
+    position: absolute;
+    left: 0;
+    content: '';
+    transform-origin: 2.5px center; }
+  .lines:before {
+    top: 8.75px; }
+  .lines:after {
+    top: -8.75px; }
+
+.lines-button.x .lines {
+  transition: background 0.15s 0.3s ease; }
+  .lines-button.x .lines:before, .lines-button.x .lines:after {
+    transform-origin: 50% 50%;
+    transition: top 0.15s 0.3s ease, transform 0.15s ease; }
+
+#nav.close .lines-button.x .lines {
+  transition: background 0.15s 0s ease;
+  background: transparent; }
+  #nav.close .lines-button.x .lines:before, #nav.close .lines-button.x .lines:after {
+    transition: top 0.15s ease, transform 0.15s 0.225s ease;
+    top: 0;
+    width: 35px; }
+  #nav.close .lines-button.x .lines:before {
+    transform: rotate3d(0, 0, 1, 45deg); }
+  #nav.close .lines-button.x .lines:after {
+    transform: rotate3d(0, 0, 1, -45deg); }
+
+@media screen and (max-width: 719px) {
+  #nav-bar {
+    background-color: #333;
+    border-bottom: 1px solid #333; }
+  #nav {
+    color: #fff;
+    margin-top: 21.66667px;
+    margin-right: 27.5px; }
+    #nav .lines, #nav .lines:after, #nav .lines:before {
+      background-color: #fff; } }
