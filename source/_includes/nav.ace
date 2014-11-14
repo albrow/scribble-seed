@@ -1,3 +1,4 @@
 #nav
   .lines-button.x type="button" role="button" aria-label="Toggle Navigation"
     span.lines
+= include _includes/nav_menu

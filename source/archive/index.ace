@@ -1,0 +1,7 @@
+= content main
+  h1 Archive
+  ul
+    {{range Posts}}
+      li
+        a href={{.Url}} {{.Title}}
+    {{end}}

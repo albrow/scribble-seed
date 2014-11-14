@@ -16,6 +16,7 @@ $color: $dark;
 	margin-right: $button-size/2 + 20px;
 	float: right;
 	line-height: $button-size;
+	z-index: 1;
 }
 .lines-button {
 	display: inline-block;
@@ -82,10 +83,79 @@ $color: $dark;
 		}
 	}
 }
+#nav-menu {
+	-webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.25);
+	box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.25);
+	transition: opacity $transition ease,
+		top $transition ease,
+		font-size $transition ease;
+	opacity: 0.0;
+	position: absolute;
+	right: 41px;
+	top: 65px;
+	font-size: 18px;
+	border: 1px solid darken($grey, 25%);
+	background-color: #fff;
+	font-family: $sans;
+	padding: 5px 0;
+	ul {
+		margin: 0;
+		padding: 0;
+		a {
+			font-weight: normal;
+			li {
+				transition: width $transition ease;
+				width: 80px;
+				text-align: center;
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+				padding: 5px 25px;
+				&.active {
+					color: $dark;
+					&:hover {
+						color: $dark;
+					}
+				}
+			}
+		}
+	}
+}
+#nav-menu.show {
+	opacity: 1.0;
+	top: 75px;
+	ul a li {
+		width: 100px;
+	}
+	font-size: 20px;
+}
 @media screen and (max-width: 719px) {
 	#nav-bar {
 		background-color: $dark;
 		border-bottom: 1px solid $dark;
+	}
+	#nav-menu {
+		right: 0;
+		top: 74px;
+		border-color: darken($dark, 10%);
+		border-top: none;
+		border-right: none;
+		background-color: $dark;
+		li {
+			color: #fff;
+			font-weight: 300;
+			font-size: 18px;
+			&:hover {
+				color: darken(#fff, 20%);
+			}
+		}
+		ul a li {
+			width: 100px;
+		}
+		&.show {
+			top: 84px;
+		}
 	}
 	#nav {
 		color: #fff;

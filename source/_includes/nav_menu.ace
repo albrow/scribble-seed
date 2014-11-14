@@ -1,0 +1,6 @@
+#nav-menu
+  ul
+    a href=/
+      li Home
+    a href=/archive
+      li Archive
