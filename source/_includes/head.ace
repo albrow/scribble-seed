@@ -5,7 +5,7 @@ Title
     {{.Site.Title}}
   {{end}}
 link href=/favicon.ico rel=icon
-link href=/css/main.css rel="stylesheet" type="text/css" media="all"
+link href=/styles/main.css rel="stylesheet" type="text/css" media="all"
 
 // metadata
 meta charset=utf-8

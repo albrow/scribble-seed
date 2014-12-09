@@ -1,6 +1,7 @@
 +++
-title = "Blog Redesign"
+title = "Second"
 author = "Billy Bob"
+date = "2014-11-15T13:50:53-05:00"
 +++
 
 ``` go
@@ -8,8 +9,6 @@ func main() {
 	fmt.Println("Hello There!");
 }
 ```
-
-What is up!
 
 ### Header Size Three
 

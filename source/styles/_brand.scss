@@ -1,5 +1,6 @@
 $brand-size: 60px;
 $brand-size-small: 45px;
+
 #brand {
 	margin-top: 20px;
 	margin-left: 20px;
@@ -19,6 +20,7 @@ $brand-size-small: 45px;
 		border-radius: 50%;
 	}
 }
+
 @media screen and (max-width: 719px) {
 	#brand {
 		border-color: #fff;

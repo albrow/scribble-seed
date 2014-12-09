@@ -1,8 +1,8 @@
 sourceDir     = "source"
 destDir       = "public"
-postsDir      = "source/_posts"
-sassSourceDir = "source/_sass"
-sassDestDir   = "public/css"
+postsDir      = "_posts"
+layoutsDir    = "_layouts"
+viewsDir      = "_views"
 
 [Site]
 Title = "Alex Browne's Blog"

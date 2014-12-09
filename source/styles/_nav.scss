@@ -1,5 +1,5 @@
 $button-size: 35px;
-$transition: .15s; // increase this to see the transformations in slow-motion
+$transition: .10s; // increase this to see the transformations in slow-motion
 $color: $dark;
 #nav-bar {
 	position: fixed;
@@ -7,7 +7,7 @@ $color: $dark;
 	right: 0;
 	width: 100%;
 	#nav-bar-inner {
-		max-width: 1000px;
+max-width: 1000px;
 		margin: 0 auto;
 	}
 }
@@ -98,7 +98,7 @@ $color: $dark;
 	border: 1px solid darken($grey, 25%);
 	background-color: #fff;
 	font-family: $sans;
-	padding: 5px 0;
+	padding: 7px 0;
 	ul {
 		margin: 0;
 		padding: 0;
@@ -111,13 +111,7 @@ $color: $dark;
 				margin: 0;
 				padding: 0;
 				list-style-type: none;
-				padding: 5px 25px;
-				&.active {
-					color: $dark;
-					&:hover {
-						color: $dark;
-					}
-				}
+				padding: 3px 25px;
 			}
 		}
 	}
@@ -128,7 +122,7 @@ $color: $dark;
 	ul a li {
 		width: 100px;
 	}
-	font-size: 20px;
+	font-size: 19px;
 }
 @media screen and (max-width: 719px) {
 	#nav-bar {
@@ -146,7 +140,7 @@ $color: $dark;
 			color: #fff;
 			font-weight: 300;
 			font-size: 18px;
-			&:hover {
+			&:hover, &:active {
 				color: darken(#fff, 20%);
 			}
 		}
