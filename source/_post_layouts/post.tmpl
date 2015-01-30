@@ -1,0 +1,8 @@
+{{ define "content" }}
+<a href="/">&larr; Back to Home</a>
+<h2 class="post-title">{{.Post.Title}}</h2>
+<div class="post-content">
+	{{.Post.Content}}
+</div>
+{{ end }}
+{{ template "base.tmpl" . }}

@@ -2,6 +2,7 @@
 title = "Second"
 author = "Billy Bob"
 date = "2014-11-15T13:50:53-05:00"
+layout = "post.tmpl"
 +++
 
 ``` go

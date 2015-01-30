@@ -1,0 +1,13 @@
++++
+layout = "base.tmpl"
++++
+{{ define "content" }}
+<h1>Recent Posts</h1>
+<ul>
+	{{range Posts 5}}
+		<li>
+			<a href="{{.Url}}">{{.Title}}</a>
+		</li>
+	{{end}}
+</ul>
+{{ end }}
