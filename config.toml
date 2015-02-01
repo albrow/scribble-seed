@@ -3,6 +3,7 @@ destDir       = "public"
 postsDir      = "source/_posts"
 layoutsDir    = "source/_layouts"
 postLayoutsDir = "source/_post_layouts"
+includesDir = "source/_includes"
 
 [Site]
 Title = "Alex Browne's Blog"
