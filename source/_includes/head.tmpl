@@ -1,1 +1,21 @@
-<title>{{ .Site.Title }}</title>
+<title>
+	{{ if .Post }}
+		{{ .Post.Title }} | {{ .Site.Title }}
+	{{ else }}
+		{{ .Site.Title }}
+	{{ end }}
+</title>
+<link href="/favicon.ico" rel="icon" />
+<link href="/styles/main.css" rel="stylesheet" type="text/css" media="screen" />
+
+<meta charset="utf-8" />
+{{ if .Post | and .Post.Author }}
+	<meta name="author" content="{{.Post.Author}}" />
+{{ else if .Site.Author }}
+	<meta name="author" content="{{.Site.Author}}" />
+{{ end }}
+{{ if .Post | and .Post.Description }}
+	<meta name="description" content="{{.Post.Description}}" />
+{{ else }}
+	<meta name="description" content="{{.Site.Description}}" />
+{{ end }}
