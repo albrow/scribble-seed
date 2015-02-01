@@ -6,6 +6,6 @@ postLayoutsDir = "source/_post_layouts"
 includesDir = "source/_includes"
 
 [Site]
-Title = "Alex Browne's Blog"
-Author = "Alex Browne"
-Description = "A blog written by Alex Browne about coding and shit."
+Title = "Your Blog Title"
+Author = "Your Name"
+Description = "A description of your blog"
