@@ -1,8 +1,11 @@
 <title>
 	{{ if .Post }}
 		{{ .Post.Title }} | {{ .Site.Title }}
-	{{ else }}
+	{{ else if .Site.Title }}
 		{{ .Site.Title }}
+	{{ else }}
+		{{/* We have to have a title tag, so fallback to something reasonable */}}
+		My Blog
 	{{ end }}
 </title>
 <link href="/favicon.ico" rel="icon" />
@@ -16,6 +19,6 @@
 {{ end }}
 {{ if .Post | and .Post.Description }}
 	<meta name="description" content="{{.Post.Description}}" />
-{{ else }}
+{{ else if .Site.Description }}
 	<meta name="description" content="{{.Site.Description}}" />
 {{ end }}
