@@ -19,5 +19,5 @@ More Information
 ----------------
 
 Check out the [scribble](https://github.com/albrow/scribble) repository 
-for more information about how the seed project is structured, and how
-the scribble compilation process works.
+for more information about how the seed project is structured and how
+the compilation process works.
