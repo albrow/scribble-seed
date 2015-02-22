@@ -1,9 +1,7 @@
 sourceDir     = "source"
 destDir       = "public"
 postsDir      = "source/_posts"
-layoutsDir    = "source/_layouts"
 postLayoutsDir = "source/_post_layouts"
-includesDir = "source/_includes"
 
 [Site]
 Title = "Your Blog Title"
