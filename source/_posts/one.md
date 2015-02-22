@@ -2,7 +2,7 @@
 title = "First"
 author = "Billy Bob"
 date = "2014-11-15T13:50:53-05:00"
-layout = "post.tmpl"
+layout = "post.jade"
 description = "Some startup ipsum under various header sizes"
 +++
 

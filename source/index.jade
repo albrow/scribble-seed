@@ -1,0 +1,9 @@
+extend ./_layouts/base.jade
+block content
+	h1 Recent Posts
+	ul
+		-var numPosts = 5
+		each post, i in Posts
+			if i < numPosts
+				li
+					a(href=post.Url) #{post.Title}

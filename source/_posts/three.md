@@ -2,7 +2,7 @@
 title = "Third"
 author = "Foo Bar"
 date = "2014-11-17T13:50:53-05:00"
-layout = "post.tmpl"
+layout = "post.jade"
 +++
 
 Personas venture capital Steve Jobs minimum viable product agile driven grok moleskine 360 campaign. Disrupt grok viral 360 campaign food-truck hacker entrepreneur 360 campaign affordances thinker-maker-doer bootstrapping engaging thought leader pitch deck. Agile iterate ideate affordances cortado ideate waterfall is so 2000 and late viral prototype SpaceTeam entrepreneur pivot integrate minimum viable product. User centered design workflow pivot co-working ship it minimum viable product experiential bootstrapping bootstrapping physical computing responsive.

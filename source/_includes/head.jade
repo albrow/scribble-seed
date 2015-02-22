@@ -1,0 +1,23 @@
+//- Title
+title
+	if Post
+		| #{Post.Title} | #{Site.Title}
+	else
+		| #{Site.Title}
+
+//- Stylesheets
+link(href="/favicon.ico" rel="icon")
+link(href="/styles/main.css" rel="stylesheet" type="text/css" media="screen")
+
+//- Metadata
+meta(charset="utf-8")
+if Post && Post.Author
+	meta(name="author" content=Post.Author)
+else if Site.Author
+	meta(name="author" content=Site.Author)
+if Post && Post.Description
+	meta(name="description" content=Post.Description)
+else if Site.Description
+	meta(name="description" content=Site.Description)
+
+meta(name="power level" content="9001")
