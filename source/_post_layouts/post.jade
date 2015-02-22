@@ -1,0 +1,6 @@
+extend ../_layouts/base
+block content
+	a(href="/") &larr; Back to Home
+	h2.post-title #{Post.Title}
+	div.post-content
+		!{Post.Content}

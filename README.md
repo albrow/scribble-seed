@@ -1,7 +1,7 @@
 scribble-seed
 -------------
 
-Version: 0.3.2
+Version: 0.4.0
 
 Seed project for [scribble](https://github.com/albrow/scribble), a tiny 
 static blog generator written in go.
